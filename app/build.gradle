@@ -1,10 +1,22 @@
-apply plugin: 'com.android.application'
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'    //添加
+
+//添加
+publish {
+    userOrg = '814835020'//bintray.com用户名
+    groupId = 'com.cxx0608'//jcenter上的路径
+    artifactId = 'okhttpUtil'//项目名称
+    publishVersion = '0.0.1'//版本号
+    desc = 'okhttpUtil'//描述，不重要
+    website = 'https://github.com/814835020/myOkhttpUtil'//网站，不重要
+}
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.cxx.android.http.myokhttputil"
+       // applicationId "com.cxx.android.http.myokhttputil"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
@@ -31,3 +43,4 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.51.android'
 
 }
+
