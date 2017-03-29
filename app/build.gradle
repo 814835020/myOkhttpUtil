@@ -4,8 +4,8 @@ apply plugin: 'com.novoda.bintray-release'    //添加
 
 //添加
 publish {
-    userOrg = 'cxx0608'//bintray.com用户名
-    groupId = 'com.cxx0608'//jcenter上的路径
+    userOrg = '814835020'//bintray.com用户名
+    groupId = 'com.814835020'//jcenter上的路径
     artifactId = 'okhttpUtil'//项目名称
     publishVersion = '0.0.1'//版本号
     desc = 'okhttpUtil'//描述，不重要
