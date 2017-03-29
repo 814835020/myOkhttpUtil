@@ -1,7 +1,6 @@
 package com.cxx.android.http.myokhttputil;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.cxx.android.http.myokhttputil.Log.LogInterface;
@@ -34,11 +33,11 @@ import static com.cxx.android.http.myokhttputil.util.LogUtil.json;
 
 /**
  * Created by cxx on 16/5/10.
- *
+ * <p>
  * 该工具类，目前只支持post请求，支持字典类型上传，字串类型上传，自动管理cookies，支持https，支持文件下载，不支持上传功能
- *
+ * <p>
  * 只支持异步请求回调
- *
+ * <p>
  * 支持缓存
  */
 public class OkhttpUtil {
@@ -185,7 +184,7 @@ public class OkhttpUtil {
      * @param tag     建议使用接口名
      * @return
      */
-    public static Request getMapRequest(@NonNull String url, @NonNull Map<String, String> mapInfo, Map<String, String> headerMap, @NonNull String tag) {
+    public static Request getMapRequest(String url, Map<String, String> mapInfo, Map<String, String> headerMap, String tag) {
         Verify();
         FormBody.Builder builder = new FormBody.Builder();
         for (Map.Entry<String, String> m : mapInfo.entrySet()) {
@@ -219,7 +218,7 @@ public class OkhttpUtil {
      * @param tag  建议使用接口名
      * @return
      */
-    public static Request getStringRequest(@NonNull String url, @NonNull String info, @NonNull String tag) {
+    public static Request getStringRequest(String url, String info, String tag) {
         Verify();
         MediaType MEDIA_TYPE_PLAIN = MediaType.parse("text/plain;charset=utf-8");
         RequestBody stringBody = RequestBody.create(MEDIA_TYPE_PLAIN, info);
@@ -241,7 +240,7 @@ public class OkhttpUtil {
      * @param tag
      * @return
      */
-    public static Request getRequest(@NonNull String url, @NonNull String tag) {
+    public static Request getRequest(String url, String tag) {
         Request request = new Request.Builder()
                 .url(url)
                 .tag(tag)
@@ -257,7 +256,7 @@ public class OkhttpUtil {
      * @param request
      * @param callback
      */
-    public static void enqueue(@NonNull Request request, @NonNull Callback callback) {
+    public static void enqueue(Request request, Callback callback) {
         Verify();
         mOkHttpClient.newCall(request).enqueue(callback);
     }
