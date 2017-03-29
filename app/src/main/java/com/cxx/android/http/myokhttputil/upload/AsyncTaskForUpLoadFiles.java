@@ -75,7 +75,6 @@ public class AsyncTaskForUpLoadFiles extends AsyncTask<Object, Object, Object> {
      * @param params    表单内容 包括文本内容
      * @param files     附件集合 可以上传多个图片
      * @return 成功与否
-     * @throws IOException
      */
     public String post(String actionUrl, Map<String, String> params,
                        Map<String, File> files) {

@@ -2,9 +2,10 @@ package com.cxx.android.http.myokhttputil.callback;
 
 import android.os.Handler;
 
-import com.cxx.android.http.myokhttputil.Log.MyLog;
 import com.cxx.android.http.myokhttputil.OkhttpUtil;
 import com.cxx.android.http.myokhttputil.parse.Parse;
+import com.cxx.android.http.myokhttputil.util.HttpUtils;
+import com.cxx.android.http.myokhttputil.util.LogUtil;
 
 import java.io.IOException;
 import java.util.Map;
@@ -15,7 +16,7 @@ import okhttp3.Response;
 
 /**
  * Created by idea on 16/5/10.
- * <p/>
+ *
  * 解析出对象字典来，并将对象字典返回，泛型类建议使用object
  */
 public abstract class MapCallBack<T> implements Callback {
@@ -27,7 +28,7 @@ public abstract class MapCallBack<T> implements Callback {
 
     public MapCallBack() {
         mParse = OkhttpUtil.getPares();
-        mMainHandler = OkhttpUtil.getMainHandler();
+        mMainHandler = HttpUtils.getMainHandler();
     }
 
     /**
@@ -50,7 +51,7 @@ public abstract class MapCallBack<T> implements Callback {
     @Override
     public void onFailure(Call call, IOException e) {
         // 网络请求失败
-        MyLog.e("接口:" + call.request().tag().toString() + "\n" + e.getMessage());
+        LogUtil.e("接口:" + call.request().tag().toString() + "\n" + e.getMessage());
         onAfterRunOnMainThread(false, null, onFailed(call, e));
     }
 
@@ -58,10 +59,10 @@ public abstract class MapCallBack<T> implements Callback {
     public void onResponse(Call call, Response response) throws IOException {
 
         String resutlInfo = response.body().string();
-        MyLog.debug("返回接口名称：" + call.request().tag());
+        LogUtil.d("返回接口名称：" + call.request().tag());
         if (response.isSuccessful()) {
             // 打印json
-            MyLog.json(resutlInfo);
+            LogUtil.json(resutlInfo);
 
             Map<String, T> resultMap = mParse.parseDictionary(resutlInfo);
 
@@ -71,7 +72,7 @@ public abstract class MapCallBack<T> implements Callback {
                 onAfterRunOnMainThread(false, null, "接口：" + call.request().tag() + ",JSON解析异常");
             }
         } else {
-            MyLog.e("responseCode: "+response.code());
+            LogUtil.e("responseCode: "+response.code());
             onAfterRunOnMainThread(false, null, "网络请求失败，responseCode：" + response.code());
         }
     }

@@ -13,7 +13,7 @@ import okhttp3.Response;
 
 /**
  * Created by idea on 16/5/10.
- * <p/>
+ *
  * 不解析，直接返回返回的数据
  */
 public abstract class StringCallBack implements Callback {

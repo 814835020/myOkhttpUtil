@@ -2,10 +2,11 @@ package com.cxx.android.http.myokhttputil.callback;
 
 import android.os.Handler;
 
-import com.cxx.android.http.myokhttputil.Log.L;
 import com.cxx.android.http.myokhttputil.OkhttpUtil;
-import com.cxx.android.http.myokhttputil.util.ReflectionUtil;
 import com.cxx.android.http.myokhttputil.parse.Parse;
+import com.cxx.android.http.myokhttputil.util.HttpUtils;
+import com.cxx.android.http.myokhttputil.util.LogUtil;
+import com.cxx.android.http.myokhttputil.util.ReflectionUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -16,7 +17,7 @@ import okhttp3.Response;
 
 /**
  * Created by idea on 16/5/10.
- * <p/>
+ *
  * 解析出对象来，并将对象返回
  */
 public abstract class ObjectCallBack<T> implements Callback {
@@ -28,7 +29,7 @@ public abstract class ObjectCallBack<T> implements Callback {
 
     public ObjectCallBack() {
         mParse = OkhttpUtil.getPares();
-        mMainHandler = OkhttpUtil.getMainHandler();
+        mMainHandler = HttpUtils.getMainHandler();
     }
 
     /**
@@ -51,7 +52,7 @@ public abstract class ObjectCallBack<T> implements Callback {
     @Override
     public void onFailure(Call call, IOException e) {
         // 网络请求失败
-        L.d("接口:" + call.request().tag().toString() + "\n" + e.getMessage());
+        LogUtil.d("接口:" + call.request().tag().toString() + "\n" + e.getMessage());
         onAfterRunOnMainThread(false, null, onFailed(call, e));
     }
 
@@ -59,10 +60,10 @@ public abstract class ObjectCallBack<T> implements Callback {
     public void onResponse(Call call, Response response) throws IOException {
 
         String resutlInfo = response.body().string();
-        L.d("返回接口名称：" + call.request().tag());
+        LogUtil.d("返回接口名称：" + call.request().tag());
         if (response.isSuccessful()) {
             // 打印json
-            L.json(resutlInfo);
+            LogUtil.json(resutlInfo);
 
             Class<T> clazz = null;
             Type[] parameterizedTypes = ReflectionUtil.getParameterizedTypes(this);
@@ -70,7 +71,7 @@ public abstract class ObjectCallBack<T> implements Callback {
             try {
                 clazz = (Class<T>) ReflectionUtil.getClass(parameterizedTypes[0]);
             } catch (ClassNotFoundException e) {
-                L.e("泛型反射过程异常！！！");
+                LogUtil.e("泛型反射过程异常！！！");
                 e.printStackTrace();
             }
 
@@ -81,7 +82,7 @@ public abstract class ObjectCallBack<T> implements Callback {
                 onAfterRunOnMainThread(false, null, "接口：" + call.request().tag() + ",JSON解析异常");
             }
         } else {
-            L.e("responseCode: "+response.code());
+            LogUtil.e("responseCode: "+response.code());
             onAfterRunOnMainThread(false, null, "网络请求失败，responseCode：" + response.code());
         }
     }

@@ -34,11 +34,11 @@ import static com.cxx.android.http.myokhttputil.util.LogUtil.json;
 
 /**
  * Created by cxx on 16/5/10.
- * <p/>
+ *
  * 该工具类，目前只支持post请求，支持字典类型上传，字串类型上传，自动管理cookies，支持https，支持文件下载，不支持上传功能
- * <p/>
+ *
  * 只支持异步请求回调
- * <p/>
+ *
  * 支持缓存
  */
 public class OkhttpUtil {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * Created by cxx on 16/5/10.
- * <p/>
+ *
  * 解析接口类，方便注入操作，可一定义解析方案
  */
 public interface Parse {

@@ -16,7 +16,7 @@ import okhttp3.Response;
 
 /**
  * Created by idea on 16/5/10.
- * <p/>
+ *
  * 解析出对象数组来，并将对象数组返回
  */
 public abstract class ListCallBack<T> implements Callback {
