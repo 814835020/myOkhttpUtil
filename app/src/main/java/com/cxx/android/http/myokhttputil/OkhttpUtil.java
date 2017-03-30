@@ -29,7 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-import static com.cxx.android.http.myokhttputil.util.LogUtil.json;
+import static android.R.attr.tag;
 
 /**
  * Created by cxx on 16/5/10.
@@ -83,6 +83,11 @@ public class OkhttpUtil {
         return this;
     }
 
+    public OkhttpUtil setIsOpenLog(boolean isOpen) {
+        isDebug = isOpen;
+        return this;
+    }
+
     /**
      * 使用前需要注入json解析器
      *
@@ -93,6 +98,11 @@ public class OkhttpUtil {
         return this;
     }
 
+    /**
+     * 使用okhttpUtil前必须调用该方法初始化
+     *
+     * @param context
+     */
     public void init(Context context) {
 
         mApplication = context.getApplicationContext();
@@ -177,6 +187,41 @@ public class OkhttpUtil {
     }
 
     /**
+     * GET请求
+     *
+     * @param url
+     * @param mapInfo
+     * @param headerMap
+     * @param tap
+     * @return
+     */
+    public static Request getGetRequest(String url, Map<String, String> mapInfo, Map<String, String> headerMap, String tap) {
+
+        StringBuilder tempParams = new StringBuilder();
+        int pos = 0;
+        for (String key : mapInfo.keySet()) {
+            if (pos > 0) {
+                tempParams.append("&");
+            }
+            tempParams.append(String.format("%s=%s", key, mapInfo.get(key)));
+            pos++;
+        }
+        String requestUrl = String.format("%s?%s", url, tempParams.toString());
+
+        Request.Builder rBuilder = new Request.Builder()
+                .url(url)
+                .tag(tag);
+        if (null != headerMap)
+            for (Map.Entry<String, String> m : headerMap.entrySet()) {
+                rBuilder.addHeader(m.getKey(), m.getValue());
+            }
+
+        LogUtil.d("请求接口名称：" + tag);
+        LogUtil.json(JSON.toJSONString(mapInfo));
+        return rBuilder.url(requestUrl).build();
+    }
+
+    /**
      * 以json键值对的方式发送数据的网络请求
      *
      * @param url
@@ -197,6 +242,7 @@ public class OkhttpUtil {
                 .post(formBody)
                 .tag(tag);
 
+
         if (null != headerMap)
             for (Map.Entry<String, String> m : headerMap.entrySet()) {
                 rBuilder.addHeader(m.getKey(), m.getValue());
@@ -206,7 +252,7 @@ public class OkhttpUtil {
 
         String sendJson = JSON.toJSONString(mapInfo);
         LogUtil.d("请求接口名称：" + tag);
-        json(sendJson);
+        LogUtil.json(sendJson);
         return request;
     }
 
